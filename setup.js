@@ -64,12 +64,25 @@ db.serialize(function () {
     //     }
     // })
 
-        db.run(`ALTER TABLE Addresses ADD ContactsId REFERENCES Contacts(id)`, (err)=>{
-        if (err) {
-            throw err;
-        } else {
-            console.log('Foreign Key ContactsId di Addresses Berhasil')
-        }
-    })
+    //     db.run(`ALTER TABLE Addresses ADD ContactsId REFERENCES Contacts(id)`, (err)=>{
+    //     if (err) {
+    //         throw err;
+    //     } else {
+    //         console.log('Foreign Key ContactsId di Addresses Berhasil')
+    //     }
+    // })
+
+    db.run(`CREATE TABLE IF NOT EXISTS ContactGroups (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ContactsId INTEGER, 
+        GroupsId INTEGER, 
+        FOREIGN KEY(ContactsId) REFERENCES Contacts(id),
+        FOREIGN KEY(GroupsId) REFERENCES Groups(id))`, (err) => {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log('Table ContactGroups berhasil dibuat')
+            }
+        });
 
 });
