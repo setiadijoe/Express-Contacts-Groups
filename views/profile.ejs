@@ -9,14 +9,15 @@
 </head>
 
 <body>
-    <h1>Halaman Contact</h1>
+    <h1>Halaman Profile</h1>
     <a href="/">Back to Home</a>
-    <table border="1" width="25%" >
+    <table border="1" width="50%" >
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Username</th>
                 <th>Password</th>
+                <th>Contacts Name</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -33,6 +34,9 @@
                         <%=rows.password%>
                     </td>
                     <td>
+                        <%=rows.name%>
+                    </td>
+                    <td>
                         <a href="/profile/edit/<%=rows.id%>">Edit</a>
                         <a href="/profile/delete/<%= rows.id%>">Delete</a>
                     </td>
@@ -40,9 +44,15 @@
                 <% }) %>
         </tbody>
     </table>
+    <%=sendError%>
     <form class="" action="/profile" method="POST">
         <input type="text" name="username" placeholder="Username">
         <input type="text" name="password" placeholder="Password">
+        <select name="ContactsId">
+            <%datacontacts.forEach(row =>{%>
+            <option value="<%=row.id%>"><%=row.name%></option>
+        <%})%>
+      </select>
         <input type="submit" value="SUBMIT">
     </form>
 </body>

@@ -3,14 +3,26 @@ const router = express.Router();
 const Profile = require('../models/profile.js')
 
 router.get('/', (req, res) => {
-    Profile.getAll((rows) => {
-        res.render('profile', { data: rows, title: 'Halaman Profile' })
+    Profile.getAll((rows, rowcontacts) => {
+        // res.send(rows)
+        res.render('profile', { data: rows, datacontacts:rowcontacts, sendError:'', title: 'Halaman Profile' })
     })
 })
 
 router.post('/', (req, res) => {
-    Profile.insertProfile(req.body, () => {
-        res.redirect('/profile')
+    Profile.insertProfile(req.body, (err) => {
+        if (err){
+            // console.log('lalalalalla')
+            Profile.getAll((rows, rowcontacts) => {
+                // res.send(rows)
+                res.render('profile', { data: rows, datacontacts: rowcontacts, sendError: 'Contact sudah punya profile', title: 'Halaman Profile' })
+            })
+            // res.redirect('/profile')
+            // res.send(err)
+        } else {
+            // res.send()
+            res.redirect('/profile')
+        }
     })
 })
 
@@ -22,7 +34,11 @@ router.get('/delete/:id', (req, res) => {
 
 router.get('/edit/:id', (req, res) => {
     Profile.editProfile(req.params.id, (rows) => {
-        res.render('profileedit', { data: rows, title: 'Halaman Profile Edit' })
+        // res.send(rows)
+        Profile.getAll((rowcontacts)=>{
+            res.render('profileedit', { data: rows, cons: rowcontacts, title: 'Halaman Profile Edit' })
+        })
+       
     })
 })
 

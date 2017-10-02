@@ -17,7 +17,13 @@
         <br> Password
         <br>
         <input type="text" name="password" value="<%=data[0].password%>">
+        <br> Contacts Name
         <br>
+        <select name="ContactsId">
+            <%cons.forEach(z =>{%>
+            <option value="<%=z.id%>"><%=z.name%></option>
+        <%})%>
+      </select>
         <input type="submit" value="EDIT">
     </form>
 </body>
