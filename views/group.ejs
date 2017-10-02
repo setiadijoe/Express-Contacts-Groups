@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        <%= title%>
+    </title>
+</head>
+
+<body>
+    <h1>Halaman Group</h1>
+    <a href="/">Back to Home</a>
+    <table border="1" width="50%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name of Group</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach ( rows => { %>
+                <tr>
+                    <td>
+                        <%=rows.id%>
+                    </td>
+                    <td>
+                        <%=rows.name_of_group%>
+                    </td>
+                    <td>
+                        <a href="/group/edit/<%=rows.id%>">Edit</a>
+                        <a href="/group/delete/<%= rows.id%>">Delete</a>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+    <form class="" action="/group" method="POST">
+        <input type="text" name="name_of_group" placeholder="Name of Group">
+        <input type="submit" value="SUBMIT">
+    </form>
+</body>
+
+</html>

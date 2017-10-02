@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        <%= title%>
+    </title>
+</head>
+
+<body>
+    <h1>Halaman Contact Edit</h1>
+    <a href="/">Back to Home</a>
+    <form class="" action="/contact/edit/<%=data[0].id%>" method="POST">
+        Name <br>
+        <input type="text" name="name" value="<%=data[0].name%>">
+        <br>
+        Company
+        <br>
+        <input type="text" name="company" value="<%=data[0].company%>">
+        <br>
+        E-mail
+        <br>
+        <input type="text" name="email" value="<%=data[0].email%>">
+        <br>
+        Telp Number
+        <br>
+        <input type="text" name="telp_number" value="<%=data[0].telp_number%>">
+        <br>
+        <input type="submit" value="EDIT">
+    </form>
+</body>
+
+</html>

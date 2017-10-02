@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        <%= title%>
+    </title>
+</head>
+
+<body>
+    <h1>Halaman Group Edit</h1>
+    <a href="/">Back to Home</a>
+    <form class="" action="/group/edit/<%=data[0].id%>" method="POST">
+        Name of Group <br>
+        <input type="text" name="name_of_group" value="<%=data[0].name_of_group%>">
+        <br>
+        <input type="submit" value="EDIT">
+    </form>
+</body>
+
+</html>

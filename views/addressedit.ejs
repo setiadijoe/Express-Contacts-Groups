@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        <%= title%>
+    </title>
+</head>
+
+<body>
+    <h1>Halaman Address Edit</h1>
+    <a href="/">Back to Home</a>
+    <form class="" action="/address/edit/<%=data[0].id%>" method="POST">
+        Street <br>
+        <input type="text" name="street" value="<%=data[0].street%>">
+        <br> City
+        <br>
+        <input type="text" name="city" value="<%=data[0].city%>">
+        <br> Zip Code
+        <br>
+        <input type="text" name="zipcode" value="<%=data[0].zipcode%>">
+        <br>
+        <input type="submit" value="EDIT">
+    </form>
+</body>
+
+</html>
