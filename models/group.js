@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database/data.db')
 
-class Groups {
+class Group {
     static getAll(cb) {
 
         db.all(`SELECT * FROM Groups`, (err, rows) => {
@@ -53,4 +53,4 @@ class Groups {
     }
 }
 
-module.exports = Groups
+module.exports = Group
