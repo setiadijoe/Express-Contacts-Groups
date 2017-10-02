@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database/data.db')
 
-class Addresses {
+class Address {
     static getAll(cb) {
 
         db.all(`SELECT * FROM Addresses`, (err, rows) => {
@@ -55,4 +55,4 @@ class Addresses {
     }
 }
 
-module.exports = Addresses
+module.exports = Address

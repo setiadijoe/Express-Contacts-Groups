@@ -1,12 +1,19 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database/data.db')
 
-class Profiles {
+class Profile {
     static getAll(cb) {
 
-        db.all(`SELECT * FROM Profiles`, (err, rows) => {
+        db.all(`SELECT P.id,P.username,P.password, C.name FROM Profiles P JOIN Contacts C ON P.ContactsId = C.id`, (err, rows) => {
             if (!err) {
-                cb(rows)
+                db.all(`SELECT id, name FROM Contacts`, (err, rowcontacts)=>{
+                    if(!err){
+                        cb(rows, rowcontacts)
+                    }else{
+                        console.log(err)
+                    }
+                })
+                // cb(rows)
             } else {
                 console.log(err)
             }
@@ -14,12 +21,12 @@ class Profiles {
     }
 
     static insertProfile(param, cb) {
-        db.run(`INSERT INTO Profiles (username, password)
-        VALUES ('${param.username}','${param.password}')`, (err) => {
+        db.run(`INSERT INTO Profiles (username, password, ContactsId)
+        VALUES ('${param.username}','${param.password}',${param.ContactsId})`, (err) => {
                 if (!err) {
                     cb()
                 } else {
-                    console.log(err)
+                    cb(err)
                 }
             })
     }
@@ -35,8 +42,13 @@ class Profiles {
     }
 
     static editProfile(param, cb) {
-        db.all(`SELECT * FROM Profiles WHERE id = ${param}`, (err, rows) => {
-            cb(rows)
+        db.all(`SELECT P.id, P.username, P.password, C.name FROM Profiles P JOIN Contacts C ON P.ContactsId = C.id WHERE P.id = ${param}`, (err, rows) => {
+            if (err){
+                console.log(err)
+            } else {
+                cb(rows)
+            }
+            // cb(rows)
         })
     }
 
@@ -54,4 +66,4 @@ class Profiles {
     }
 }
 
-module.exports = Profiles
+module.exports = Profile
