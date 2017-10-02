@@ -20,6 +20,13 @@
         <br> Zip Code
         <br>
         <input type="text" name="zipcode" value="<%=data[0].zipcode%>">
+        <br>Contacts Name
+        <br>
+        <select name="ContactsId">
+            <%cons.forEach(z =>{%>
+            <option value="<%=z.id%>"><%=z.name%></option>
+        <%})%>
+        </select>
         <br>
         <input type="submit" value="EDIT">
     </form>

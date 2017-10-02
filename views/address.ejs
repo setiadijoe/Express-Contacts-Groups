@@ -15,6 +15,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Contact Name</th>
                 <th>Street</th>
                 <th>City</th>
                 <th>Zip Code</th>
@@ -26,6 +27,9 @@
                 <tr>
                     <td>
                         <%=rows.id%>
+                    </td>
+                    <td>
+                        <%=rows.name%>
                     </td>
                     <td>
                         <%=rows.street%>
@@ -48,6 +52,11 @@
         <input type="text" name="street" placeholder="Street">
         <input type="text" name="city" placeholder="City">
         <input type="text" name="zipcode" placeholder="Zipcode">
+        <select name="ContactsId">
+            <%cons.forEach(row =>{%>
+            <option value="<%=row.id%>"><%=row.name%></option>
+        <%})%>
+        </select>
         <input type="submit" value="SUBMIT">
     </form>
 </body>

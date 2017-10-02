@@ -56,11 +56,19 @@ db.serialize(function () {
     //     }
     // })
 
-    db.run(`CREATE UNIQUE INDEX ContactsId ON Profiles(ContactsId)`, (err)=>{
+    // db.run(`CREATE UNIQUE INDEX ContactsId ON Profiles(ContactsId)`, (err)=>{
+    //     if (err) {
+    //         throw err;
+    //     } else {
+    //         console.log(' UNIQUE Key ContactsId di Profiles Berhasil')
+    //     }
+    // })
+
+        db.run(`ALTER TABLE Addresses ADD ContactsId REFERENCES Contacts(id)`, (err)=>{
         if (err) {
             throw err;
         } else {
-            console.log(' UNIQUE Key ContactsId di Profiles Berhasil')
+            console.log('Foreign Key ContactsId di Addresses Berhasil')
         }
     })
 

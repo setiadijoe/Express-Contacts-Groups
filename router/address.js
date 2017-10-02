@@ -3,8 +3,9 @@ const router = express.Router();
 const Address = require('../models/address.js')
 
 router.get('/', (req, res) => {
-    Address.getAll((rows) => {
-        res.render('address', { data: rows, title: 'Halaman Address' })
+    Address.getAll((rows, rowcontacts) => {
+        // res.send(rows)
+        res.render('address', { data: rows, cons:rowcontacts, title: 'Halaman Address' })
     })
 })
 
@@ -22,7 +23,9 @@ router.get('/delete/:id', (req, res) => {
 
 router.get('/edit/:id', (req, res) => {
     Address.editAddress(req.params.id, (rows) => {
-        res.render('addressedit', { data: rows, title: 'Halaman Address Edit' })
+        Address.getAll((rowcontacts)=>{
+            res.render('addressedit', { data: rows, cons:rowcontacts, title: 'Halaman Address Edit' })
+        })
     })
 })
 
