@@ -5,7 +5,9 @@ class ContactGroup {
 
     static getContact(groupid, cb) {
         db.get(`SELECT CG.id, CG.GroupsId, CG.ContactsId FROM ContactGroups CG 
-        JOIN Contact C ON CG.ContactsId = C.id WHERE CG.ContactsId = ${groupid}`, function(err, rows){
+        JOIN Contacts C ON CG.ContactsId = C.id WHERE CG.GroupsId = ${groupid}`, function(rows){
+            console.log('dari contactgroups model');
+            console.log(rows);
             cb(rows)
         })
     }

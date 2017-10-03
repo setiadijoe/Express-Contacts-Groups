@@ -63,13 +63,16 @@ class Group {
         //ContactGroup
         //select * ContactGroup left join Contact on ContactGroup.contactId = contact.id where ContactGroup.groupId = ${idGroup}
         //
-        db.all(`SELECT CG.GroupsId, CG.ContactsId, C.name FROM ContactGroups CG JOIN Contacts C ON CG.ContactsId = C.id 
-        WHERE CG.GroupsId = '${idGroup}'`, function(err, rows2){
-            if(!err){
-                cb(rows2)
-            } else {
-                console.log(err);
-            }
+        // db.all(`SELECT CG.GroupsId, CG.ContactsId, C.name FROM ContactGroups CG JOIN Contacts C ON CG.ContactsId = C.id 
+        // WHERE CG.GroupsId = '${idGroup}'`, function(err, rows2){
+        //     if(!err){
+        //         cb(rows2)
+        //     } else {
+        //         l
+        //     }
+        // })
+        CG.getContact(idGroup, function(rows){
+            cb(rows)
         })
 
     }
@@ -161,11 +164,6 @@ class Group {
                     console.log(err)
                 }
             })
-    }
-
-    static getContact(idGroup) {
-        //
-
     }
 }
 

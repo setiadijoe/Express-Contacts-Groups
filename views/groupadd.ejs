@@ -10,7 +10,8 @@
         <h1>Halaman Add Group Member</h1>
         <a href="/group">Back to Group</a>
         <form class="" action="/group/add/<%=data.id%>" method="POST">
-            <input type="text" name="name_of_group" value="<%=data.name_of_group%>">
+            <label for=""><%=data.name_of_group%></label>
+            <!-- <input type="text" name="name_of_group" value="<%=data.name_of_group%>"> -->
             <select name="ContactsId">
                 <%datacontacts.forEach(row =>{%>
                     <option value="<%=row.id%>"><%=row.name%></option>

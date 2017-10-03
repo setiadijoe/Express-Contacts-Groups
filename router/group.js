@@ -55,10 +55,10 @@ router.get('/', function(req, res){
         console.log(rows)
         rows.forEach((r)=>{
             console.log(r.id)
-            Groups.getContactName(r.id, function(rows2){
+            Groups.getContactName(r.id, function(rows){
                 r["contactName"] = []
-                console.log('ini rows2',rows2)
-                rows2.map(x=>{
+                console.log('ini rows2',rows)
+                rows.map(x=>{
                     r.contactName.push(x.name)
                     return r
                 })
