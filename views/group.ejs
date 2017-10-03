@@ -16,6 +16,8 @@
             <tr>
                 <th>ID</th>
                 <th>Name of Group</th>
+                <th>Member of Group</th>
+                <th>Insert Contact</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -27,6 +29,12 @@
                     </td>
                     <td>
                         <%=rows.name_of_group%>
+                    </td>
+                    <td>
+                        <%=rows.datamember%>
+                    </td>
+                    <td>
+                        <a href="/group/add/<%=rows.id%>">add_contacts</a>
                     </td>
                     <td>
                         <a href="/group/edit/<%=rows.id%>">Edit</a>

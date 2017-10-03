@@ -2,9 +2,27 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database/data.db')
 
 class Address {
-    static getAll(cb) {
+    constructor(id, street, city, zipcode){
+        this.id      = id
+        this.street  = street
+        this.city    = city
+        this.zipcode = zipcode
+    }
 
-        db.all(`SELECT A.id, A.street, A.city, A.zipcode, C.name FROM Addresses A JOIN Contacts C ON A.ContactsId = C.id`, (err, rows) => {
+    static getAddress(cb) {
+        db.all(`SELECT A.id, A.street, A.city, A.zipcode FROM Addresses A`, (err, rows)=>{
+            if(!err){
+                rows.map(add => {
+                    let address = new Address(add.id, add.street, add.city, add.zipcode)
+                    cb(address)
+                })
+            }
+        })
+    }
+
+    static getAll(cb) {
+        db.all(`SELECT A.id, A.street, A.city, A.zipcode, C.name FROM Addresses A 
+        JOIN Contacts C ON A.ContactsId = C.id`, (err, rows) => {
             if (!err) {
                 db.all(`SELECT id, name FROM Contacts`, (err, rowcontacts) => {
                     if (!err) {

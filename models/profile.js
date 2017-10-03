@@ -2,8 +2,22 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database/data.db')
 
 class Profile {
-    static getAll(cb) {
+    constructor(id, username, password){
+        this.id       = id
+        this.username = username
+        this.password = password
+    }
 
+    static getProfile(cb){
+        db.all(`SELECT P.id, P.username, P.password FROM Profile P`, (err, rows)=>{
+            rows.map(add=>{
+                let profile = new Profile(add.id, add.username, add.password)
+                cb(profile)
+            })
+        })
+    }
+
+    static getAll(cb) {
         db.all(`SELECT P.id,P.username,P.password, C.name FROM Profiles P JOIN Contacts C ON P.ContactsId = C.id`, (err, rows) => {
             if (!err) {
                 db.all(`SELECT id, name FROM Contacts`, (err, rowcontacts)=>{
