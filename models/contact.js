@@ -21,60 +21,76 @@ class Contact {
         })
     }
 
-    static getAll(cb) {
-
-        db.all(`SELECT * FROM Contacts`, (err, rows) => {
-            if (!err) {
-                cb(rows)
-            } else {
-                console.log(err)
-            }
-        })
-    }
-
-    static insertContact(param, cb) {
-        db.run(`INSERT INTO Contacts (name, company, email, telp_number)
-        VALUES ('${param.name}','${param.company}','${param.email}','${param.telp_number}')`, (err) => {
-                if (!err){
-                    cb()
-                } else {
-                    console.log(err)
-                }   
-            })
-    }
-
-    static deleteContact(param, cb) {
-        db.run(`DELETE FROM Contacts WHERE id = ${param}`, (err) => {
-            if (!err) {
-                cb()
-            } else {
-                console.log(err)
-            }  
-        })
-    }
-
-    static editContact(param, cb) {
-        db.all(`SELECT * FROM Contacts WHERE id = ${param}`, (err, rows) => {
-            cb(rows)
-        })
-    }
-
-    static updateContact(body, param, cb) {
-        db.run(`UPDATE Contacts SET
-        name = '${body.name}',
-        company = '${body.company}',
-        email = '${body.email}',
-        telp_number ='${body.telp_number}' WHERE id='${param}'`, (err) => {
+    static getAll() {
+        let promise = new Promise((resolve, reject)=>{
+            db.all(`SELECT * FROM Contacts`, (err, rows) => {
                 if (!err) {
-                    cb()
+                    resolve(rows)
                 } else {
-                    console.log(err)
+                    reject(err)
                 }
             })
+        })
+
+        return promise
     }
 
-    
+    static insertContact(param) {
+        let promise = new Promise((resolve, reject)=>{
+            db.run(`INSERT INTO Contacts (name, company, email, telp_number)
+            VALUES ('${param.name}','${param.company}','${param.email}','${param.telp_number}')`, (err) => {
+                    if (!err){
+                        resolve()
+                    } else {
+                        reject(err)
+                    }   
+            })
+        })
+        return promise
+    }
 
+    static deleteContact(param) {
+        let promise = new Promise((resolve, reject)=>{
+            db.run(`DELETE FROM Contacts WHERE id = ${param}`, (err) => {
+                if (!err) {
+                    resolve()
+                } else {
+                    reject(err)
+                }  
+            })
+        })
+        return promise
+    }
+
+    static editContact(param) {
+        let promise = new Promise(function(resolve, reject) {
+            db.all(`SELECT * FROM Contacts WHERE id = ${param}`, (err, rows) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(rows)
+                }
+            })    
+        });
+        return promise
+    }
+
+    static updateContact(body, param) {
+        let promise = new Promise(function(resolve, reject) {
+            db.run(`UPDATE Contacts SET
+            name = '${body.name}',
+            company = '${body.company}',
+            email = '${body.email}',
+            telp_number ='${body.telp_number}' WHERE id='${param}'`, (err) => {
+                    if (!err) {
+                        resolve()
+                    } else {
+                        reject(err)
+                    }
+            })
+        });
+        return promise
+    }   
 }
 
 module.exports = Contact
