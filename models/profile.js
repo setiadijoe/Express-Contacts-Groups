@@ -2,81 +2,92 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database/data.db')
 
 class Profile {
-    constructor(id, username, password){
+    constructor(id, username, password, ContactsId){
         this.id       = id
         this.username = username
         this.password = password
+        this.ContactsId = ContactsId
     }
 
-    static getProfile(cb){
+    getProfile(cb){
         db.all(`SELECT P.id, P.username, P.password FROM Profile P`, (err, rows)=>{
             rows.map(add=>{
-                let profile = new Profile(add.id, add.username, add.password)
+                let profile = new Profile(add.id, add.username, add.password, add.ContactsId)
                 cb(profile)
             })
         })
     }
 
-    static getAll(cb) {
-        db.all(`SELECT P.id,P.username,P.password, C.name FROM Profiles P JOIN Contacts C ON P.ContactsId = C.id`, (err, rows) => {
-            if (!err) {
-                db.all(`SELECT id, name FROM Contacts`, (err, rowcontacts)=>{
-                    if(!err){
-                        cb(rows, rowcontacts)
-                    }else{
-                        console.log(err)
-                    }
-                })
-                // cb(rows)
-            } else {
-                console.log(err)
-            }
-        })
-    }
-
-    static insertProfile(param, cb) {
-        db.run(`INSERT INTO Profiles (username, password, ContactsId)
-        VALUES ('${param.username}','${param.password}',${param.ContactsId})`, (err) => {
+    static getAll() {
+        let promise = new Promise(function(resolve, reject) {
+            db.all(`SELECT P.id, P.username, P.password, P.ContactsId FROM Profiles P`, (err, rows) => {
                 if (!err) {
-                    cb()
+                    resolve(rows)
                 } else {
-                    cb(err)
+                    reject(err)
                 }
             })
+        });
+        return promise
     }
 
-    static deleteProfile(param, cb) {
-        db.run(`DELETE FROM Profiles WHERE id = ${param}`, (err) => {
-            if (!err) {
-                cb()
-            } else {
-                console.log(err)
-            }
-        })
+    static insertProfile(param) {
+        let promise = new Promise(function(resolve, reject) {
+            db.run(`INSERT INTO Profiles (username, password, ContactsId)
+            VALUES ('${param.username}','${param.password}',${param.ContactsId})`, (err) => {
+                    if (!err) {
+                        resolve()
+                    } else {
+                        reject(err)
+                    }
+            })
+        });
+        return promise
     }
 
-    static editProfile(param, cb) {
-        db.all(`SELECT P.id, P.username, P.password, C.name FROM Profiles P JOIN Contacts C ON P.ContactsId = C.id WHERE P.id = ${param}`, (err, rows) => {
-            if (err){
-                console.log(err)
-            } else {
-                cb(rows)
-            }
-            // cb(rows)
-        })
-    }
-
-    static updateProfile(body, param, cb) {
-        db.run(`UPDATE Profiles SET
-        username = '${body.username}',
-        password = '${body.password}' 
-        WHERE id='${param}'`, (err) => {
+    static deleteProfile(param) {
+        let promise = new Promise(function(resolve, reject) {
+            db.run(`DELETE FROM Profiles WHERE id = ${param}`, (err) => {
                 if (!err) {
-                    cb()
+                    resolve()
                 } else {
-                    console.log(err)
+                    reject(err)
                 }
-        })
+            })
+        });
+        return promise
+    }
+
+    static findById(param) { //UBAH jadi findById
+        let promise = new Promise(function(resolve, reject) {
+            db.get(`SELECT P.id, P.username, P.password, P.ContactsId FROM Profiles P  WHERE P.id = ${param}`, (err, rows) => {
+                if (err){
+                    reject(err)
+                } else {
+                    resolve(rows)
+                }
+            })
+        });
+        return promise
+    }
+
+    static updateProfile(body, param) {
+        let query = `UPDATE Profiles SET
+            username = '${body.username}',
+            password = '${body.password}',
+            ContactsId = ${body.ContactsId} 
+            WHERE id =${param}`;
+        
+        let promise =  new Promise(function(resolve, reject) {
+            db.run(query, (err) => {
+                    if (!err) {
+                        resolve()
+                    } else {
+                        reject(err)
+                    }
+            })
+        });
+        return promise
     }
 }
 

@@ -33,7 +33,7 @@ router.get('/delete/:id', (req, res) => {
 })
 
 router.get('/edit/:id', (req, res) => {
-    Contact.editContact(req.params.id)
+    Contact.findById(req.params.id)
         .then(rows=>{
             res.render('contactedit', { data: rows, title: 'Halaman Contact Edit' })
         })

@@ -10,22 +10,30 @@
 
 <body>
     <h1>Halaman Profile Edit</h1>
-    <a href="/">Back to Home</a>
-    <form class="" action="/profile/edit/<%=data[0].id%>" method="POST">
+    <a href="/profile">Back to Profile</a>
+    <h3><%=sendError%></h3>
+    <form class="" action="/profile/edit/<%=data.id%>" method="POST">
         Username <br>
-        <input type="text" name="username" value="<%=data[0].username%>">
+        <input type="text" name="username" value="<%=data.username%>">
         <br> Password
         <br>
-        <input type="text" name="password" value="<%=data[0].password%>">
+        <input type="text" name="password" value="<%=data.password%>">
         <br> Contacts Name
         <br>
         <select name="ContactsId">
+            <%if (cons){%>
             <%cons.forEach(z =>{%>
+                <%if (data.ContactsId == z.id){%>
+            <option value="<%=z.id%>" selected><%=z.name%></option>
+                <%} else {%>
             <option value="<%=z.id%>"><%=z.name%></option>
-        <%})%>
+                <%}%>
+            <%})%>
+        <%}%>
       </select>
         <input type="submit" value="EDIT">
     </form>
+    
 </body>
 
 </html>

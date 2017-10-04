@@ -34,7 +34,7 @@
                         <%=rows.password%>
                     </td>
                     <td>
-                        <%=rows.name%>
+                        <%=rows.user%>
                     </td>
                     <td>
                         <a href="/profile/edit/<%=rows.id%>">Edit</a>
@@ -44,10 +44,10 @@
                 <% }) %>
         </tbody>
     </table>
-    <%=sendError%>
+    <h3><%=sendError%></h3>
     <form class="" action="/profile" method="POST">
         <input type="text" name="username" placeholder="Username">
-        <input type="text" name="password" placeholder="Password">
+        <input type="password" name="password" placeholder="Password">
         <select name="ContactsId">
             <%datacontacts.forEach(row =>{%>
             <option value="<%=row.id%>"><%=row.name%></option>

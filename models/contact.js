@@ -62,7 +62,7 @@ class Contact {
         return promise
     }
 
-    static editContact(param) {
+    static findById(param) {
         let promise = new Promise(function(resolve, reject) {
             db.all(`SELECT * FROM Contacts WHERE id = ${param}`, (err, rows) => {
                 if (err) {

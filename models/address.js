@@ -20,7 +20,7 @@ class Address {
         })
     }
 
-    static getAll(cb) {
+    static findAll(cb) {
         db.all(`SELECT A.id, A.street, A.city, A.zipcode, C.name FROM Addresses A 
         JOIN Contacts C ON A.ContactsId = C.id`, (err, rows) => {
             if (!err) {
