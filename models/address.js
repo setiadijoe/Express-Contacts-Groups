@@ -20,67 +20,84 @@ class Address {
         })
     }
 
-    static findAll(cb) {
-        db.all(`SELECT A.id, A.street, A.city, A.zipcode, C.name FROM Addresses A 
-        JOIN Contacts C ON A.ContactsId = C.id`, (err, rows) => {
-            if (!err) {
-                db.all(`SELECT id, name FROM Contacts`, (err, rowcontacts) => {
+    static findAll() {
+        let query = `SELECT * FROM Addresses`
+        let promise = new Promise(function(resolve, reject) {
+            db.all(query, (err, rows) => {
+                if (!err) {
+                    resolve(rows)
+                } else {
+                    reject(err)
+                }
+            })    
+        });
+        return promise
+    }
+
+    static insertAddress(param) {
+        let query = `INSERT INTO Addresses (street, city, zipcode, ContactsId)
+        VALUES ('${param.street}','${param.city}',${param.zipcode},${param.ContactsId})`
+
+        let promise = new Promise(function(resolve, reject) {
+            db.run(query, (err) => {
                     if (!err) {
-                        cb(rows, rowcontacts)
+                        resolve()
                     } else {
-                        console.log(err)
+                        reject(err)
                     }
                 })
-                // cb(rows)
-            } else {
-                console.log(err)
-            }
-        })
+        });
+        return promise
     }
 
-    static insertAddress(param, cb) {
-        db.run(`INSERT INTO Addresses (street, city, zipcode, ContactsId)
-        VALUES ('${param.street}','${param.city}','${param.zipcode}',${param.ContactsId})`, (err) => {
+    static deleteAddress(param) {
+        let query = `DELETE FROM Addresses WHERE id = ${param}`
+
+        let promise = new Promise(function(resolve, reject) {
+            db.run(query, (err) => {
                 if (!err) {
-                    cb()
+                    resolve()
                 } else {
-                    console.log(err)
+                    reject(err)
                 }
             })
+        });
+        return promise
     }
 
-    static deleteAddress(param, cb) {
-        db.run(`DELETE FROM Addresses WHERE id = ${param}`, (err) => {
-            if (!err) {
-                cb()
-            } else {
-                console.log(err)
-            }
-        })
-    }
+    static findById(param) {
+        let query = `SELECT * FROM Addresses WHERE id = ${param}`
 
-    static editAddress(param, cb) {
-        db.all(`SELECT A.id, A.street, A.city, A.zipcode, C.name FROM Addresses A JOIN Contacts C ON A.ContactsId = C.id WHERE A.id = ${param}`, (err, rows) => {
-            if (err) {
-                console.log(err)
-            } else {
-                cb(rows)
-            }
-        })
+        let promise = new Promise(function(resolve, reject) {
+            db.get(query, (err, rows) => {
+                if (!err) {
+                    resolve(rows)
+                } else {
+                    reject(err)
+                }
+            })
+        });
+        return promise
     }
 
     static updateAddress(body, param, cb) {
-        db.run(`UPDATE Addresses SET
+        let query = `UPDATE Addresses SET
         street = '${body.street}',
         city = '${body.city}',
-        zipcode = '${body.zipcode}' 
-        WHERE id='${param}'`, (err) => {
-                if (!err) {
-                    cb()
-                } else {
-                    console.log(err)
-                }
-            })
+        zipcode = ${body.zipcode},
+        ContactsId = ${body.ContactsId} 
+        WHERE id=${param}`
+
+        let promise = new Promise(function(resolve, reject) {
+            db.run(query, (err) => {
+                    if (!err) {
+                        resolve()
+                    } else {
+                        reject(err)
+                    }
+                })
+        });
+        return promise
     }
 }
 

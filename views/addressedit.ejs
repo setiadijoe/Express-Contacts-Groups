@@ -11,21 +11,27 @@
 <body>
     <h1>Halaman Address Edit</h1>
     <a href="/">Back to Home</a>
-    <form class="" action="/address/edit/<%=data[0].id%>" method="POST">
+    <form class="" action="/address/edit/<%=data.id%>" method="POST">
         Street <br>
-        <input type="text" name="street" value="<%=data[0].street%>">
+        <input type="text" name="street" value="<%=data.street%>">
         <br> City
         <br>
-        <input type="text" name="city" value="<%=data[0].city%>">
+        <input type="text" name="city" value="<%=data.city%>">
         <br> Zip Code
         <br>
-        <input type="text" name="zipcode" value="<%=data[0].zipcode%>">
+        <input type="text" name="zipcode" value="<%=data.zipcode%>">
         <br>Contacts Name
         <br>
         <select name="ContactsId">
+        <%if (cons){%>
             <%cons.forEach(z =>{%>
+                <%if (data.ContactsId == z.id){%>
+            <option value="<%=z.id%>" selected><%=z.name%></option>
+                <%} else {%>
             <option value="<%=z.id%>"><%=z.name%></option>
-        <%})%>
+                <%}%>
+            <%})%>
+        <%}%>
         </select>
         <br>
         <input type="submit" value="EDIT">
